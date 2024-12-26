@@ -18,11 +18,8 @@ export const buildSlidev = async (filePath) => {
       "../../dist",
       path.basename(filePath, path.extname(filePath)) + `_${Date.now()}`
     );
-
-    // Create a unique directory for each presentation
     await fs.mkdir(uniqueDir, { recursive: true });
 
-    // Execute Slidev build command with the output path
     const { stdout } = await execPromise(
       `slidev build ${filePath} --out ${uniqueDir}`
     );
