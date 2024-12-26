@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 export default class BackupService {
   async copyDirectory(source, destination) {
     try {
@@ -20,9 +19,9 @@ export default class BackupService {
         const destPath = path.join(destination, entry.name);
 
         if (entry.isDirectory()) {
-          await copyDirectory(sourcePath, destPath);
+          await this.copyDirectory(sourcePath, destPath);
         } else {
-           fs.copyFile(sourcePath, destPath);
+          fs.copyFile(sourcePath, destPath);
         }
       }
       console.log(`Backup completed for ${source}`);
@@ -49,8 +48,8 @@ export default class BackupService {
       await fs.mkdir(backupDir, { recursive: true });
 
       // Copy the uploads and dist directories
-      await copyDirectory(uploadsDir, backupUploadsDir);
-      await copyDirectory(distDir, backupDistDir);
+      await this.copyDirectory(uploadsDir, backupUploadsDir);
+      await this.copyDirectory(distDir, backupDistDir);
 
       console.log("Backup process completed successfully.");
     } catch (err) {

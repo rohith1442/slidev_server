@@ -13,6 +13,7 @@ export default class CronController{
       console.log("Starting scheduled backup...");
       await this.backupService.backupFiles(); // Await the backup process
       console.log("Scheduled backup completed successfully.");
+      
     } catch (err) {
       console.error("Scheduled backup failed:", err);
     }

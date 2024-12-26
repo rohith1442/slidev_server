@@ -9,6 +9,8 @@ const __dirname = path.dirname(__filename);
 
 const uploadsDir = path.join(__dirname, "../../uploads");
 const distDir = path.join(__dirname, "../../dist");
+const backupDir = path.join(__dirname, "../../backup");
+
 
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
@@ -16,6 +18,9 @@ if (!fs.existsSync(uploadsDir)) {
 
 if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir);
+}
+if (!fs.existsSync(backupDir)) {
+  fs.mkdirSync(backupDir);
 }
 
 const storage = multer.diskStorage({

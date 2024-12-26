@@ -14,8 +14,11 @@ router.post('/upload-batch',fileUpload,slideController.createSlideDeck);
 router.get('/list-decks',slideController.getAllSlideDecks);
 router.put('/update-slide/:name',slideController.updateSlide);
 router.delete('/delete-slide/:name',slideController.deleteSlide);
-cron.schedule('*/1 * * * *', cronController.runBackupJob);
+router.get('/backup',slideController.startBackup);
 
+cron.schedule('00 00 * * *', cronController.runBackupJob, {
+    timezone: 'Asia/Kolkata',
+  });
 
 
 router.get('/health',slideController.healthCheck);
