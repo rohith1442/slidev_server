@@ -4,7 +4,12 @@ import slideRoutes from './slide.routes.js'
 const router = Router();
 
 
+
+
+
 router.use('/slides', slideRoutes);
+
+
 
 // Root path route
 router.get('/', (req, res) => {

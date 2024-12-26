@@ -1,8 +1,10 @@
 import SlideService from "../services/slide.service.js";
+import BackupService from "../services/backup.service.js";
 
 export default class SlideController {
   constructor() {
     this.slideService = new SlideService();
+    this.backupService = new BackupService();
   }
   createSlideDeck = async (req, res) => {
     try {
@@ -43,9 +45,7 @@ export default class SlideController {
 
     try {
       if (!name || !content) {
-        return res
-          .status(400)
-          .send('Both "name" and "content" fields are required.');
+        throw new Error('Both "name" and "content" fields are required.');
       }
 
       await this.slideService.updateSlide(name, content);
@@ -59,6 +59,37 @@ export default class SlideController {
     }
   };
 
+  deleteSlide = async (req, res) => {
+    const { name } = req.params;
+
+    try {
+      if (!name) {
+        throw new Error("Slide name is required.");
+      }
+
+      await this.slideService.deleteSlide(name);
+
+      res.status(200).json({
+        message: `Slide deck ${name} and all versions deleted successfully from both uploads and dist.`,
+      });
+    } catch (err) {
+      console.error("Error deleting slide:", err);
+      res.status(500).send(`Error deleting slide: ${err.message}`);
+    }
+  };
+
+  startBackup = async (req, res) => {
+    try {
+      console.log("Starting manual backup...");
+      await this.backupService.backupFiles();
+      res.status(200).json({
+        message: "Backup started successfully.",  
+      }); 
+    } catch (err) {
+      console.error("Backup failed:", err);
+      res.status(500).send("Backup failed.");
+    }
+  };
   healthCheck = async (req, res) => {
     try {
       const healthcheck = { title: "systemTest" };
